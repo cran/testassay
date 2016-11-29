@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Michael P Fay, Michael C Sachs, and Kazutoyo Miura" />
+
+
+<title>Validation of Growth Inhibition Assay using testassay</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Validation of Growth Inhibition Assay using <code>testassay</code></h1>
+<h4 class="author"><em>Michael P Fay, Michael C Sachs, and Kazutoyo Miura</em></h4>
+<h4 class="date"><em>2016 nov 29</em></h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The growth inhibition assay (GIA) is a functional assay that measures how antibodies (immunoglobulin G, IgG) in a blood sample inhibits the growth (and/or invasion) of certain malaria parasites. It is a functional assay in the sense that it is designed to measure the function of a sample, rather than the amount of a specifc analyte. The growth inhibition assay is described in detail in <span class="citation">(Malkin et al. 2005)</span>. Briefy, the purified IgG from the test sample is mixed with malaria-infected red blood cells (RBCs) in a well of a 96 well plate. A negative control is a well with infected RBCs without test IgG on the same plate.</p>
+<p>The amount of parasite growth in either of those wells is measured by a biochemical assay specific for parasite lactate dehydrogenase using optical density wavelength of 650 (OD650). Specifically, the GIA from those two wells after adjusting for the OD650 from normal RBCs is</p>
+<p><span class="math display">\[
+GIA = 100 \left( 1 - \frac{OD_{650} \mbox{ of infected RBCs with test IgG } - OD_{650}  \mbox{ of normal RBCs}  }{OD_{650} \mbox{ of infected RBCs without any IgG } - OD_{650}  \mbox{ of normal RBCs} }  \right).
+\]</span></p>
+<p>Following <span class="citation">(Cummings et al. 2010)</span> we want to focus our validation process on the intended purposes of the GIA. One main purpose for the assay is to determine whether a given sample has any growth inhibition, and if so, how much. So the general purpose standard deviation interval should be useful in showing the middle 68.27% probable range of any sample. So the effective standard deviation of <span class="math inline">\(Y\)</span> will be a useful statistic.</p>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<p>For this demonstration, we use GIA replicate measurements on samples, where the GIA is based on two different strains of the <em>Plasmodium falciparum</em> parasite, 3D7 and FVO. Each sample is measured 4 times on 4 different assays. There are 6 samples measured using the 3D7 strain, and in each of the 4 assays each of the 6 samples is measured once. Similarly, there are 7 samples measured using the FVO strain, and in each of 4 different assays each of the 7 samples is measured once. There is statistical dependence due to the samples being all measured on the same assay, so in a proper qualifying procedure each replicate would be measured on a different assay. For the purposes of illustration assume that each replicate is measured on a different assay.</p>
+<p>The example data are included with the package in the object called <code>gia</code>. This contains the raw elisa and gia values, for each replicate along with the sample-level means and variances.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(gia)</code></pre></div>
+<pre><code>##  parasite     assay        elisa             gia           sample         
+##  3D7:24   101    : 7   Min.   :  1760   Min.   :-4.36   Length:52         
+##  FVO:28   102    : 7   1st Qu.:  4098   1st Qu.:22.91   Class :character  
+##           103    : 7   Median : 14079   Median :44.08   Mode  :character  
+##           104    : 7   Mean   : 27123   Mean   :49.58                     
+##           1      : 6   3rd Qu.: 32786   3rd Qu.:76.31                     
+##           2      : 6   Max.   :112633   Max.   :97.92                     
+##           (Other):12                                                      
+##    meanAAgia         varAAgia    
+##  Min.   : 4.505   Min.   : 1.28  
+##  1st Qu.:23.655   1st Qu.:22.43  
+##  Median :47.535   Median :38.14  
+##  Mean   :49.580   Mean   :34.96  
+##  3rd Qu.:73.672   3rd Qu.:49.29  
+##  Max.   :96.585   Max.   :56.50  
+## </code></pre>
+<p>In the following figure we plot the mean of the 4 replicates for each sample by its 4 GIA measurements. The constant standard deviation model on the GIA appears reasonable except for very large values of mean GIA (above about 80% the variance looks smaller). Thus, we consider only the range with mean GIA <span class="math inline">\(&lt;80\%\)</span>. For these examples, we use the <span class="math inline">\(m\!:\!n\!:\!90\%\)</span> procedures, but the <span class="math inline">\(m\!:\!n\!:\!80\%\)</span> ones could have also been used.</p>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>We start with the 3D7 GIA assays. The range with mean GIA <span class="math inline">\(&lt;80\%\)</span> leaves us with <span class="math inline">\(m=4\)</span> levels for testing. We run a <span class="math inline">\(4\!:\!4\!:\!90\%\)</span> procedure with a constant normal variance model. Using the <code>testassay</code> function from the synonymous package, we pass the parameters <span class="math inline">\(m\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(q\)</span> as arguments. We also must specify the model type as either “normal”, “lognormal”, or “gamma”, and whether the variance is constant or the CV is constant.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">treD7.test &lt;-<span class="st"> </span><span class="kw">testassay</span>(<span class="dt">x =</span> gia, 
+                        <span class="dt">m =</span> sample, <span class="dt">n =</span> assay, <span class="dt">q =</span> .<span class="dv">9</span>, 
+                        <span class="dt">model =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">constant =</span> <span class="st">&quot;variance&quot;</span>, 
+                        <span class="dt">data =</span> <span class="kw">subset</span>(gia, parasite ==<span class="st"> &quot;3D7&quot;</span> &amp;<span class="st"> </span>meanAAgia &lt;<span class="st"> </span><span class="dv">80</span>))
+
+treD7.test</code></pre></div>
+<pre><code>## Results of a 4:4:90 % procedure. 
+## Assuming a normal model with constant SD 
+##  
+##      sample    mean       sd     U.SD
+## 1  3D7.2049 17.7525 5.477849 5.758026
+## 2  3D7.4098 33.8225 7.354814 7.730994
+## 3  3D7.8196 53.0775 7.516841 7.901308
+## 4 3D7.16393 68.4850 6.176150 6.492045
+## 
+##  U.SD is the one-sided upper confidence limit at alpha = 0.4376587
+## Between assay values of 17.7525 to 68.485 the assay passes the procedure with bound 7.901308 
+## Use predict to obtain confidence intervals for future observations</code></pre>
+<p>so we calculate confidence intervals for <span class="math inline">\(\sigma\)</span> at the one-sided <span class="math inline">\(1 - (.10)^{1/4}\)</span> = 0.4376587 level. These are given as <code>U.sd</code> in the table printed out by testassay.</p>
+<p>Although, 0.4376587 seems like a strange level for the individual upper limits, it allows us to take the maximum as a 90% limit, so that <span class="math inline">\(\bar{\sigma}(.90)\)</span> = 7.9013076. Although the effective standard deviation was calculated without using the values with mean GIA <span class="math inline">\(&gt;80\%\)</span>, since the variance of those values appears less, we can practically extend the range of the precision up to <span class="math inline">\(100\%\)</span>.</p>
+<p>We can use the predict method to report observed assay values as confidence intervals with the effective standard deviation. We simply pass a vector of observations to the <code>predict</code> function on the assaytest object. If newdata is not given, it will report the intervals for the values used in the validation procedure. Be aware that the predict procedure is not aware of any upper or lower limits to the assay, so interpret the results with care. For instance, the GIA assay has an upper limit of 100, but the software does not restrict the confidence interval upper limits so they could potentially be above 100.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obsD7 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">5</span>, <span class="dt">mean =</span> <span class="dv">50</span>, <span class="dt">sd =</span> <span class="dv">18</span>)
+<span class="kw">predict</span>(treD7.test, <span class="dt">newdata =</span> obsD7)</code></pre></div>
+<pre><code>## Warning in predict.assaytest(treD7.test, newdata = obsD7): New observations
+## outside the range of the assay validation procedure!</code></pre>
+<pre><code>##        obs    lower    upper
+## 1 41.75572 33.85441 49.65702
+## 2 62.81979 54.91848 70.72109
+## 3 36.62795 28.72664 44.52926
+## 4 49.07680 41.17550 56.97811
+## 5 78.58498 70.68368 86.48629</code></pre>
+<p>Now we run the procedure for the FVO samples.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FVO.test &lt;-<span class="st"> </span><span class="kw">testassay</span>(<span class="dt">x =</span> gia, 
+                        <span class="dt">m =</span> sample, <span class="dt">n =</span> assay, <span class="dt">q =</span> .<span class="dv">9</span>, 
+                        <span class="dt">model =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">constant =</span> <span class="st">&quot;variance&quot;</span>, 
+                        <span class="dt">data =</span> <span class="kw">subset</span>(gia, parasite ==<span class="st"> &quot;FVO&quot;</span> &amp;<span class="st"> </span>meanAAgia &lt;<span class="st"> </span><span class="dv">80</span>))
+
+FVO.test</code></pre></div>
+<pre><code>## Results of a 6:4:90 % procedure. 
+## Assuming a normal model with constant SD 
+##  
+##      sample    mean       sd     U.SD
+## 1  FVO.1760  4.5050 7.020795 6.485295
+## 2  FVO.3520 13.1325 6.326929 5.844351
+## 3  FVO.7040 23.6550 6.719670 6.207137
+## 4 FVO.14079 33.2600 4.290322 3.963084
+## 5 FVO.28158 47.5350 5.734280 5.296906
+## 6 FVO.56317 73.6725 7.468335 6.898699
+## 
+##  U.SD is the one-sided upper confidence limit at alpha = 0.3187079
+## Between assay values of 4.505 to 73.6725 the assay passes the procedure with bound 6.898699 
+## Use predict to obtain confidence intervals for future observations</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(FVO.test)</code></pre></div>
+<pre><code>## Warning in predict.assaytest(FVO.test): New observations outside the range
+## of the assay validation procedure!</code></pre>
+<pre><code>##      obs       lower     upper
+## 1  74.27  67.3713013 81.168699
+## 2  50.52  43.6213013 57.418699
+## 3  36.84  29.9413013 43.738699
+## 4  30.64  23.7413013 37.538699
+## 5  21.13  14.2313013 28.028699
+## 6  12.54   5.6413013 19.438699
+## 7  74.31  67.4113013 81.208699
+## 8  44.52  37.6213013 51.418699
+## 9  30.59  23.6913013 37.488699
+## 10 20.72  13.8213013 27.618699
+## 11 12.39   5.4913013 19.288699
+## 12  6.40  -0.4986987 13.298699
+## 13 63.95  57.0513013 70.848699
+## 14 41.20  34.3013013 48.098699
+## 15 28.63  21.7313013 35.528699
+## 16 15.72   8.8213013 22.618699
+## 17  5.68  -1.2186987 12.578699
+## 18 -4.36 -11.2586987  2.538699
+## 19 82.16  75.2613013 89.058699
+## 20 53.90  47.0013013 60.798699
+## 21 36.98  30.0813013 43.878699
+## 22 27.54  20.6413013 34.438699
+## 23 13.33   6.4313013 20.228699
+## 24  3.44  -3.4586987 10.338699</code></pre>
+<p>A plot of the observed values with effective standard deviation intervals:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predat &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(<span class="kw">subset</span>(gia, parasite ==<span class="st"> &quot;FVO&quot;</span> &amp;<span class="st"> </span>meanAAgia &lt;<span class="st"> </span><span class="dv">80</span>), <span class="kw">predict</span>(FVO.test))</code></pre></div>
+<pre><code>## Warning in predict.assaytest(FVO.test): New observations outside the range
+## of the assay validation procedure!</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(predat, 
+       <span class="kw">aes</span>(<span class="dt">x =</span> assay, <span class="dt">y =</span> obs, <span class="dt">ymin =</span> lower, <span class="dt">ymax =</span> upper)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_pointrange</span>() +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>sample) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;GIA&quot;</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>We can also run validation procedures assuming a lognormal model, and/or constant coefficient of variation (CV), which is the standard deviation divided by the mean. A constant coefficient of variation model is appropriate when the standard deviation increases as the assay value increases. This is not the case here, but we run the model for illustration. The constant cv models give upper limits of confidence intervals for the CV instead of the SD. The effective standard deviation intervals differ depending on the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newobs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">25</span>, <span class="dv">40</span>, <span class="dv">65</span>)
+<span class="kw">predict</span>(treD7.test, newobs)</code></pre></div>
+<pre><code>##   obs    lower    upper
+## 1  25 17.09869 32.90131
+## 2  40 32.09869 47.90131
+## 3  65 57.09869 72.90131</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cvn &lt;-<span class="st"> </span><span class="kw">testassay</span>(<span class="dt">x =</span> gia, 
+          <span class="dt">m =</span> sample, <span class="dt">n =</span> assay, <span class="dt">q =</span> .<span class="dv">9</span>, 
+          <span class="dt">model =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">constant =</span> <span class="st">&quot;cv&quot;</span>, 
+          <span class="dt">data =</span> <span class="kw">subset</span>(gia, parasite ==<span class="st"> &quot;3D7&quot;</span> &amp;<span class="st"> </span>meanAAgia &lt;<span class="st"> </span><span class="dv">80</span>))
+
+<span class="kw">predict</span>(cvn, newobs)</code></pre></div>
+<pre><code>##   obs    lower    upper
+## 1  25 17.24702 36.23816
+## 2  40 27.59523 57.98105
+## 3  65 44.84226 94.21921</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cvln &lt;-<span class="st"> </span><span class="kw">testassay</span>(<span class="dt">x =</span> gia, 
+          <span class="dt">m =</span> sample, <span class="dt">n =</span> assay, <span class="dt">q =</span> .<span class="dv">9</span>, 
+          <span class="dt">model =</span> <span class="st">&quot;lognormal&quot;</span>, <span class="dt">constant =</span> <span class="st">&quot;cv&quot;</span>, 
+          <span class="dt">data =</span> <span class="kw">subset</span>(gia, parasite ==<span class="st"> &quot;3D7&quot;</span> &amp;<span class="st"> </span>meanAAgia &lt;<span class="st"> </span><span class="dv">80</span>))
+
+<span class="kw">predict</span>(cvln, newobs)</code></pre></div>
+<pre><code>##   obs    lower    upper
+## 1  25 17.31858 36.08840
+## 2  40 27.70974 57.74144
+## 3  65 45.02832 93.82984</code></pre>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-Cumm:2010">
+<p>Cummings, Jeffrey, F Raynaud, L Jones, R Sugar, and Caroline Dive. 2010. “Fit-for-Purpose Biomarker Method Validation for Application in Clinical Trials of Anticancer Drugs.” <em>British Journal of Cancer</em> 103 (9). Nature Publishing Group: 1313–7.</p>
+</div>
+<div id="ref-Malk:2005">
+<p>Malkin, Elissa M, David J Diemert, Julie H McArthur, John R Perreault, Aaron P Miles, Birgitte K Giersing, Gregory E Mullen, et al. 2005. “Phase 1 Clinical Trial of Apical Membrane Antigen 1: An Asexual Blood-Stage Vaccine for Plasmodium Falciparum Malaria.” <em>Infection and Immunity</em> 73 (6). Am Soc Microbiol: 3677–85.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
