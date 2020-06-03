@@ -1,7 +1,7 @@
-## ----import, include = FALSE---------------------------------------------
+## ----import, include = FALSE--------------------------------------------------
 library(ggplot2)
 library(testassay)
-library(dplyr)
+
 d <- gia
 tab<-table(d$sample,d$assay)
 rowNames<-dimnames(tab)[[1]]
@@ -22,10 +22,10 @@ J<- d$sample %in% fvosamp
 tabfvo<-table(d$sample[J],d$assay[J])
 
 
-## ----ex------------------------------------------------------------------
+## ----ex-----------------------------------------------------------------------
 summary(gia)
 
-## ----pl1, echo = FALSE, message = FALSE----------------------------------
+## ----pl1, echo = FALSE, message = FALSE---------------------------------------
 ggplot(d, aes(x = gia, y = meanAAgia, color = parasite))  + 
   geom_abline(slope = 1, intercept = 0, color = "gray", size = 1.5) + geom_point() + 
   scale_x_continuous("GIA", limits = c(-5, 100), breaks = seq(0, 100, by = 20)) + 
@@ -33,7 +33,7 @@ ggplot(d, aes(x = gia, y = meanAAgia, color = parasite))  +
   theme(legend.position = c(.85, .2))
 
 
-## ----giatest1------------------------------------------------------------
+## ----giatest1-----------------------------------------------------------------
 treD7.test <- testassay(x = gia, 
                         m = sample, n = assay, q = .9, 
                         model = "normal", constant = "variance", 
@@ -41,11 +41,11 @@ treD7.test <- testassay(x = gia,
 
 treD7.test
 
-## ----giapredict----------------------------------------------------------
+## ----giapredict---------------------------------------------------------------
 obsD7 <- rnorm(5, mean = 50, sd = 18)
 predict(treD7.test, newdata = obsD7)
 
-## ----giatest2------------------------------------------------------------
+## ----giatest2-----------------------------------------------------------------
 FVO.test <- testassay(x = gia, 
                         m = sample, n = assay, q = .9, 
                         model = "normal", constant = "variance", 
@@ -55,14 +55,14 @@ FVO.test
 
 predict(FVO.test)
 
-## ----predplot------------------------------------------------------------
-predat <- bind_cols(subset(gia, parasite == "FVO" & meanAAgia < 80), predict(FVO.test))
+## ----predplot-----------------------------------------------------------------
+predat <- cbind(subset(gia, parasite == "FVO" & meanAAgia < 80), predict(FVO.test))
 
 ggplot(predat, 
        aes(x = assay, y = obs, ymin = lower, ymax = upper)) + 
   geom_pointrange() + facet_wrap(~ sample) + ylab("GIA")
 
-## ----giacv---------------------------------------------------------------
+## ----giacv--------------------------------------------------------------------
 newobs <- c(25, 40, 65)
 predict(treD7.test, newobs)
 
